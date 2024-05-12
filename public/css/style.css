@@ -1,0 +1,63 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+}
+@font-face {
+    font-family: goldplay;
+    src: url(fonts/Goldplay-BlackIt.ttf);
+    font-family: gotham;
+    src: url(fonts/GothamBold.ttf);
+    font-family: nexa;
+    src: url(fonts/Nexa-Heavy.ttf);
+    font-family: nexalight;
+    src: url(fonts/Nexa\ Light.otf);
+    font-family: gothamlight;
+    src: url(fonts/GothamLight.ttf);
+    font-family: gothamlightital;
+    src: url(fonts/GothamLightItalic.ttf);
+}
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 7%;
+    background: #f2f4f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+.navbar{
+    display: flex;
+    align-items: center;
+    position:absolute;
+    right:0;
+    margin:2.5rem;
+}
+.loginbutton{
+    height: 4rem;
+    width: 10rem;
+    background: #000;
+    color: #F16322;
+    font-family: nexa;
+    font-weight: bold;
+    font-size: 1.8rem;
+    border-radius: 0.7rem;
+    cursor:pointer;
+    transition: background 0.4s;
+}
+.navbar button:hover{
+    background: #F16322;
+    color:#000;
+}
