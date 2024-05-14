@@ -41,6 +41,7 @@ Route::group(['prefix'=>'admin'],function(){
       Route::get('/products/create',[ProductController::class,'create'])->name('products.create');
       Route::post('/products/store',[ProductController::class,'store'])->name('products.store');
       Route::get('/products/{id}/edit',[ProductController::class,'edit'])->name('products.edit');
+      Route::put('/products/{id}', [ProductController::class,'update'])->name('products.update');
       //temp-images.create
       Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-images.create');
 });

@@ -9,6 +9,7 @@ use App\Models\ProductImage;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 
 class ProductController extends Controller
@@ -94,4 +95,24 @@ class ProductController extends Controller
         $data['categories']=$categories;
         return view('admin.products.edit', $data);
     }
+    public function update(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'district' => 'required',
+            'price' => 'required|numeric',
+            'qty' => 'required',
+            'category' => 'required|numeric',
+            'is_featured' => 'required|in:Yes,No',
+        ]);
+
+        $product->update($request->all());
+
+        return redirect()->route('products.index')
+            ->with('success', 'Product updated successfully.');
+    }
+
+    
+
 }

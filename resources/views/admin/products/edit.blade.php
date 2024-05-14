@@ -18,8 +18,9 @@
 				<!-- Main content -->
 				<section class="content">
 					<!-- Default box -->
-                    <form action="{{ route('products.store') }}" method="post" name="productForm" id="productForm">
+                    <form action="{{ route('products.update', $product->id) }}" method="post" name="productForm" id="productForm">
                         @csrf
+                        @method('PUT')
 					<div class="container-fluid">
                         <div class="row">
                             <div class="col-md-8">
@@ -36,7 +37,7 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label for="title">Slug</label>
-                                                    <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug" value="{{ $product->slug }}">
+                                                    <input readonly type="text" name="slug" id="slug" class="form-control" placeholder="Slug" value="{{ $product->slug }}">
                                                     <p class="error"></p>	
                                                 </div>
                                             </div>
@@ -99,7 +100,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="sku">SKU (Stock Keeping Unit)</label>
-                                                    <input type="text" name="sku" id="sku" class="form-control" placeholder="sku" value="{{ $product->sku }}">
+                                                    <input readonly type="text" name="sku" id="sku" class="form-control" placeholder="sku" value="{{ $product->sku }}">
                                                     <p class="error"></p>	
                                                 </div>
                                             </div>
@@ -165,7 +166,7 @@
                         </div>
 						
 						<div class="pb-5 pt-3">
-							<button type="submit" class="btn btn-primary">Create</button>
+							<button type="submit" class="btn btn-primary">Update</button>
 							<a href="{{ route('products.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
 						</div>
 					</div>
