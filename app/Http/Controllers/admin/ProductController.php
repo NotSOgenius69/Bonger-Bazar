@@ -10,6 +10,7 @@ use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProductController extends Controller
@@ -33,6 +34,7 @@ class ProductController extends Controller
     }
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'slug' => 'required|unique:products',
@@ -68,12 +70,20 @@ class ProductController extends Controller
 
                     $productImage = new ProductImage();
                     $productImage->product_id = $product->id;
-                    $productImage->image = 'NULL';
-                    $productImage->save();
+                    //$productImage->image = 'NULL';
+                    //$productImage->save();
+
+                    /*$photo = $request->file('photo');
+            $filename = time() . '.' . $photo->getClientOriginalExtension();
+            // Specify the path within the public disk
+            $path = $photo->storeAs('uploads/items', $filename, 'public');
+            $item->photo = $filename; // Save the full path or just the filename, as needed
+            $item->save();*/
 
                     $imageName = $product->id . '-' . $productImage->id . '-' . time() . '.' . $ext;
                     $productImage->image = $imageName;
                     $productImage->save();
+
                 }
             }
             return redirect()->route('products.index')->with('success', 'Product created successfully!');
@@ -113,6 +123,16 @@ class ProductController extends Controller
             ->with('success', 'Product updated successfully.');
     }
 
-    
+    /*public function destroy($id, Request $request)
+    {
+        $product = Product::find($id);
+
+        if(empty($product)){
+            return redirect()->route('products.index')
+            ->with('error', 'Product not found.');
+        }
+
+        File::delete()
+    }*/
 
 }
