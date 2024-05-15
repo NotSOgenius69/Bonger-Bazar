@@ -30,4 +30,17 @@ class TempImagesController extends Controller
             ]);
         }
     }
+    public function destroy($id)
+    {
+    $tempImage = TempImage::findOrFail($id);
+    $filePath = public_path('temp/' . $tempImage->name);
+
+    if (File::exists($filePath)) {
+        File::delete($filePath);
+    }
+
+    $tempImage->delete();
+
+    return response()->json(['success' => true]);
+    }
 }

@@ -42,6 +42,9 @@ Route::group(['prefix'=>'admin'],function(){
       Route::post('/products/store',[ProductController::class,'store'])->name('products.store');
       Route::get('/products/{id}/edit',[ProductController::class,'edit'])->name('products.edit');
       Route::put('/products/{id}', [ProductController::class,'update'])->name('products.update');
-      //temp-images.create
+      Route::delete('/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.delete');
+
+      //temp-images
       Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-images.create');
+      Route::delete('/temp-images/{id}', [TempImagesController::class, 'destroy'])->name('temp-images.destroy');
 });

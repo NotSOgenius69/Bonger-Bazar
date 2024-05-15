@@ -63,29 +63,35 @@ class ProductController extends Controller
 
             //save gallery pics
             if (!empty($request->image_array)) {
-                foreach ($request->image_array as $temp_image_id) {
+                foreach ($request->image_array as $fileData) {
+                    $file = json_decode($fileData);
+                    $temp_image_id = $file->upload->uuid;
                     $tempImageInfo = TempImage::find($temp_image_id);
+    
+                    if($tempImageInfo){
                     $extArray = explode('.', $tempImageInfo->name);
                     $ext = last($extArray);
 
-                    $productImage = new ProductImage();
-                    $productImage->product_id = $product->id;
-                    //$productImage->image = 'NULL';
-                    //$productImage->save();
-
-                    /*$photo = $request->file('photo');
-            $filename = time() . '.' . $photo->getClientOriginalExtension();
-            // Specify the path within the public disk
-            $path = $photo->storeAs('uploads/items', $filename, 'public');
-            $item->photo = $filename; // Save the full path or just the filename, as needed
-            $item->save();*/
-
+                   // Move the image from temp folder to uploads folder
+                    $tempImagePath = public_path('temp/' . $tempImageInfo->name);
+                    // Check if the file exists before moving
+                    if (File::exists($tempImagePath)) {
+                      $productImage = new ProductImage();
+                      $productImage->product_id = $product->id;
+                   
                     $imageName = $product->id . '-' . $productImage->id . '-' . time() . '.' . $ext;
                     $productImage->image = $imageName;
                     $productImage->save();
+                    $uploadPath = public_path('uploads\product/' . $imageName);
+                    File::move($tempImagePath, $uploadPath);
+                    // Delete the temporary image file
+                    File::delete($tempImagePath);
+                    }
 
                 }
+              }
             }
+            TempImage::truncate();
             return redirect()->route('products.index')->with('success', 'Product created successfully!');
         } else {
             return response()->json([
@@ -123,7 +129,7 @@ class ProductController extends Controller
             ->with('success', 'Product updated successfully.');
     }
 
-    /*public function destroy($id, Request $request)
+    public function destroy($id, Request $request)
     {
         $product = Product::find($id);
 
@@ -131,8 +137,19 @@ class ProductController extends Controller
             return redirect()->route('products.index')
             ->with('error', 'Product not found.');
         }
+        $productImages= ProductImage::where('product_id',$id)->get();
+        if(!empty($productImages))
+        {
+            foreach($productImages as $productImage)
+            {File::delete(public_path('uploads/product/').$productImage->image);}
 
-        File::delete()
-    }*/
+            ProductImage::where('product_id',$id)->delete();
+        }
+
+        $product->delete();
+        return redirect()->route('products.index')
+            ->with('success', 'Product deleted successfully.');
+       
+    }
 
 }

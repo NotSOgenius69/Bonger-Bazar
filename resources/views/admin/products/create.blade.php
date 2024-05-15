@@ -178,21 +178,37 @@
 
 @section('customJs')
    <script>
-    Dropzone.autoDiscover = false;
-    const dropzone = $("#image").dropzone({
-            url:"{{ route('temp-images.create') }}",
-            maxFiles:10,
-            paramName:'image',
-            addRemoveLinks:true,
-            acceptedFiles:"image/jpeg,image/png,image/gif",
-            headers:{
-                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            }, success:function(file,response){
-                //$("#image_id").val(response.image_id);
-                var html=`<input type="hidden" name="image_array[]" value="${response.image_id}">`;
+   Dropzone.autoDiscover = false;
+let image_array = [];
 
-                $("#hidden-input").append(html);
-            }
-    });
+const dropzone = new Dropzone("#image", {
+    url: "{{ route('temp-images.create') }}",
+    maxFiles: 10,
+    paramName: 'image',
+    addRemoveLinks: true,
+    acceptedFiles: "image/jpeg,image/png,image/gif",
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    init: function() {
+        this.on("addedfile", (file) => {
+            file.previewElement.addEventListener("click", () => {
+                this.removeFile(file);
+            });
+        });
+
+        this.on("success", (file, response) => {
+            file.upload.uuid = response.image_id;
+            file.upload.path = response.ImagePath;
+            image_array.push(file);
+            $("#hidden-input").append(`<input type="hidden" name="image_array[]" value='${JSON.stringify(file)}'>`);
+        });
+
+        this.on("removedfile", (file) => {
+            image_array = image_array.filter(f => f.upload.uuid !== file.upload.uuid);
+            $("#hidden-input").find(`input[value='${JSON.stringify(file)}']`).remove();
+        });
+    }
+});
    </script>
 @endsection
