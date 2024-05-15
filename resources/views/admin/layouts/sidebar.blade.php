@@ -49,7 +49,7 @@
 								</a>
 							</li>	
 							<li class="nav-item">
-								<a href="{{ route('mainhome') }}" class="nav-link">
+								<a href="{{ route('front.home') }}" class="nav-link">
 								    <i class="fa-solid fa-house"></i>
 									<p>Home Page</p>
 								</a>

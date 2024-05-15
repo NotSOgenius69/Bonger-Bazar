@@ -6,6 +6,8 @@ use App\Http\Controllers\admin\AdminLoginController;
 
 use App\Http\Controllers\admin\HomeController;
 
+use App\Http\Controllers\FrontController;
+
 use App\Http\Controllers\admin\ProductController;
 
 use App\Http\Controllers\admin\TempImagesController;
@@ -22,9 +24,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('mainhome');
+Route::get('/', [FrontController::class,'index'])->name('front.home');
 
 Route::group(['prefix'=>'admin'],function(){
      Route::group(['middleware'=>'admin.guest'],function(){

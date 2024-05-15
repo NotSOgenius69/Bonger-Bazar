@@ -21,43 +21,27 @@
     font-family: gothamlightital;
     src: url(fonts/GothamLightItalic.ttf);
 }
-html{
-    font-size: 62.5%;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-}
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 2rem 7%;
-    background: #f2f4f3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-}
-.navbar{
-    display: flex;
-    align-items: center;
-    position:absolute;
-    right:0;
-    margin:2.5rem;
-}
-.loginbutton{
-    height: 4rem;
-    width: 10rem;
+#loginbutton{
+    height: 2rem;
+    width: 5rem;
     background: #000;
     color: #F16322;
     font-family: nexa;
     font-weight: bold;
-    font-size: 1.8rem;
-    border-radius: 0.7rem;
+    font-size: 1rem;
+    border-radius: 0.4rem;
+    margin:0.8rem;
     cursor:pointer;
     transition: background 0.4s;
 }
-.navbar button:hover{
+#loginbutton:hover{
     background: #F16322;
     color:#000;
 }
+.text-primary {
+    color: #f16322 !important;
+  }
+footer .copyright-area{
+    background-color: #F16322 !important;
+}
+  
