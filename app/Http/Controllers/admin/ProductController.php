@@ -105,30 +105,72 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $categories = Category::orderBy('name','ASC')->get();
-
+        $productImages= optional($product->productImages())->get();
         $data= [];
         $data['product']=$product;
         $data['categories']=$categories;
+        $data['productImages']=$productImages;
         return view('admin.products.edit', $data);
     }
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
         $validatedData = $request->validate([
-            'title' => 'required',
-            'district' => 'required',
-            'price' => 'required|numeric',
-            'qty' => 'required',
-            'category' => 'required|numeric',
-            'is_featured' => 'required|in:Yes,No',
+        'title' => 'required',
+        'district' => 'required',
+        'price' => 'required|numeric',
+        'qty' => 'required',
+        'category' => 'required|numeric',
+        'is_featured' => 'required|in:Yes,No',
         ]);
+        ///dd($request->all());
+        
+        $productImages = [];
 
-        $product->update($request->all());
+        if (!empty($request->image_array)) {
+        foreach ($request->image_array as $fileData) {
+            $file = json_decode($fileData);
+            $temp_image_id = $file->upload->uuid;
+            $tempImageInfo = TempImage::find($temp_image_id);
 
-        return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully.');
+            if ($tempImageInfo) {
+                $extArray = explode('.', $tempImageInfo->name);
+                $ext = end($extArray);
+
+                // Move the image from temp folder to uploads folder
+                $tempImagePath = public_path('temp/' . $tempImageInfo->name);
+
+                // Check if the file exists before moving
+                if (File::exists($tempImagePath)) {
+                    $imageName = $temp_image_id.'-'.$product->id . '-' . time() . '.' . $ext;
+                    $uploadPath = public_path('uploads/product/' . $imageName);
+                    File::move($tempImagePath, $uploadPath);
+
+                    // Delete the temporary image file
+                    File::delete($tempImagePath);
+
+                    $productImages[] = [
+                        'product_id' => $product->id,
+                        'image' => $imageName
+                    ];
+                }
+            }
+        }
     }
 
+    TempImage::truncate();
+
+    $product->update($request->except('category'));
+    $product->category_id = $validatedData['category'];
+    $product->save();
+    // Save the product images
+    foreach ($productImages as $productImage) {
+        ProductImage::create($productImage);
+    }
+
+    return redirect()->route('products.index')
+        ->with('success', 'Product updated successfully.');
+    }
     public function destroy($id, Request $request)
     {
         $product = Product::find($id);
@@ -150,6 +192,22 @@ class ProductController extends Controller
         return redirect()->route('products.index')
             ->with('success', 'Product deleted successfully.');
        
+    }
+    public function deleteProductImage($id)
+    {
+    $productImages = ProductImage::where('id', $id)->get();
+
+    if (!($productImages->isEmpty())) {
+        foreach ($productImages as $productImage) {
+            $imagePath = public_path('uploads/product/' . $productImage->image);
+            if (File::exists($imagePath)) {
+                File::delete($imagePath);
+            }
+        }
+        ProductImage::where('id', $id)->delete();
+    }
+
+      return redirect()->back()->with('success', 'Product images deleted successfully.');
     }
 
 }

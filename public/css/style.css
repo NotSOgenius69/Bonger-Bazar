@@ -21,7 +21,7 @@
     font-family: gothamlightital;
     src: url(fonts/GothamLightItalic.ttf);
 }
-#loginbutton{
+.loginbutton{
     height: 2rem;
     width: 5rem;
     background: #000;
@@ -34,14 +34,33 @@
     cursor:pointer;
     transition: background 0.4s;
 }
-#loginbutton:hover{
+.loginbutton:hover{
     background: #F16322;
     color:#000;
 }
 .text-primary {
     color: #f16322 !important;
   }
+.section-title::after{
+    background-color: #F16322 !important;
+}
+a.link:hover{
+    color:#F16322 !important;
+}
+.btn:hover{
+    color: white !important;
+}
+
+.btn-dark:hover{
+    background-color: #F16322 !important;
+}
+i.fa-heart:hover{
+    color:#F16322 !important;
+}
 footer .copyright-area{
+    background-color: #F16322 !important;
+}
+footer h3::after{
     background-color: #F16322 !important;
 }
   

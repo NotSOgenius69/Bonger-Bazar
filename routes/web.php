@@ -43,6 +43,7 @@ Route::group(['prefix'=>'admin'],function(){
       Route::get('/products/{id}/edit',[ProductController::class,'edit'])->name('products.edit');
       Route::put('/products/{id}', [ProductController::class,'update'])->name('products.update');
       Route::delete('/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.delete');
+      Route::get('/delete-product-image/{id}', [ProductController::class,'deleteProductImage'])->name('products.delete-product-image');
 
       //temp-images
       Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-images.create');

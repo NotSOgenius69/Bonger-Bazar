@@ -179,9 +179,9 @@
 @section('customJs')
    <script>
    Dropzone.autoDiscover = false;
-let image_array = [];
+    let image_array = [];
 
-const dropzone = new Dropzone("#image", {
+    const dropzone = new Dropzone("#image", {
     url: "{{ route('temp-images.create') }}",
     maxFiles: 10,
     paramName: 'image',
