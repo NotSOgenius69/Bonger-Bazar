@@ -22,4 +22,17 @@ class FrontController extends Controller
 
         return view('front.home', $data);
     }
+    public function product($slug){
+        $product = Product::where('slug',$slug)->with('productImages')->first();
+        if($product == null){
+            abort(404);
+        }
+        $relatedProduct = Product::where('district',$product->district)
+        ->where('id', '!=', $product->id) 
+        ->with('productImages')
+        ->get();
+        $data['product'] = $product;
+        $data['related'] = $relatedProduct;
+        return view('front.product',$data);
+    }
 }

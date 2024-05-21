@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\admin\AdminLoginController;
 
 use App\Http\Controllers\admin\HomeController;
@@ -25,6 +27,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [FrontController::class,'index'])->name('front.home');
+Route::get('/product/{slug}',[FrontController::class,'product'])->name('front.product');
 
 Route::group(['prefix'=>'admin'],function(){
      Route::group(['middleware'=>'admin.guest'],function(){
