@@ -1,5 +1,6 @@
 @extends('front.layouts.parentlayout')
 
+
 @section('frontcontent')
 <main>
     <section class="section-1">
@@ -126,9 +127,9 @@
                             <a class="whishlist" href="#"><i class="far fa-heart"></i></a>
 
                             <div class="product-action">
-                                <a class="btn btn-dark" href="#">
+                            <a class="btn btn-dark" href="{{ route('cart.add',$product->id) }}" >
                                     <i class="fa fa-shopping-cart"></i> Add To Cart
-                                </a>
+                            </a>
                             </div>
                         </div>
                         <div class="card-body text-center mt-3">
@@ -167,7 +168,7 @@
                             <a class="whishlist" href="#"><i class="far fa-heart"></i></a>
 
                             <div class="product-action">
-                                <a class="btn btn-dark" href="#">
+                            <a class="btn btn-dark" href="{{ route('cart.add',$product->id) }}" >
                                     <i class="fa fa-shopping-cart"></i> Add To Cart
                                 </a>
                             </div>
@@ -209,7 +210,7 @@
                             <a class="whishlist" href="#"><i class="far fa-heart"></i></a>
 
                             <div class="product-action">
-                                <a class="btn btn-dark" href="#">
+                            <a class="btn btn-dark" href="{{ route('cart.add',$product->id) }}" >
                                     <i class="fa fa-shopping-cart"></i> Add To Cart
                                 </a>
                             </div>
@@ -251,7 +252,7 @@
                             <a class="whishlist" href="#"><i class="far fa-heart"></i></a>
 
                             <div class="product-action">
-                                <a class="btn btn-dark" href="#">
+                            <a class="btn btn-dark" href="{{ route('cart.add',$product->id) }}" >
                                     <i class="fa fa-shopping-cart"></i> Add To Cart
                                 </a>
                             </div>
@@ -293,7 +294,7 @@
                             <a class="whishlist" href="#"><i class="far fa-heart"></i></a>
 
                             <div class="product-action">
-                                <a class="btn btn-dark" href="#">
+                            <a class="btn btn-dark" href="{{ route('cart.add',$product->id) }}" >
                                     <i class="fa fa-shopping-cart"></i> Add To Cart
                                 </a>
                             </div>
@@ -317,4 +318,5 @@
 @endsection
 
 @section('customJs')
+
 @endsection

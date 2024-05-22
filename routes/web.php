@@ -14,6 +14,8 @@ use App\Http\Controllers\admin\ProductController;
 
 use App\Http\Controllers\admin\TempImagesController;
 
+use App\Http\Controllers\CartController;
+
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +30,19 @@ use Illuminate\Http\Request;
 
 Route::get('/', [FrontController::class,'index'])->name('front.home');
 Route::get('/product/{slug}',[FrontController::class,'product'])->name('front.product');
+Route::get('/profile',[FrontController::class,'profile'])->name('user.profile');
 
+// Cart routes
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'updateCartItem'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+// admin routes
 Route::group(['prefix'=>'admin'],function(){
      Route::group(['middleware'=>'admin.guest'],function(){
         Route::get('/login',[AdminLoginController::class,'index'])->name('admin.login');
+         Route::post('/register', [AdminLoginController::class, 'register'])->name('user.register');
         Route::post('/authenticate',[AdminLoginController::class,'authenticate'])->name('admin.authenticate');
      });
      Route::group(['middleware'=>'admin.auth'],function(){
@@ -52,3 +63,16 @@ Route::group(['prefix'=>'admin'],function(){
       Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-images.create');
       Route::delete('/temp-images/{id}', [TempImagesController::class, 'destroy'])->name('temp-images.destroy');
 });
+
+//user routes
+Route::group(['prefix'=>'user'],function(){
+   Route::group(['middleware'=>'guest'],function(){
+      Route::get('/login',[AdminLoginController::class,'index'])->name('user.login');
+       Route::post('/register', [AdminLoginController::class, 'register'])->name('user.register');
+      Route::post('/authenticate',[AdminLoginController::class,'authenticate'])->name('user.authenticate');
+   });
+   Route::group(['middleware'=>'auth'],function(){
+     
+      Route::get('/logout',[FrontController::class,'logout'])->name('user.logout');
+   });
+   });

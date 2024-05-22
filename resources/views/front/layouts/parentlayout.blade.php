@@ -101,7 +101,7 @@
                     @if(getCategories()->isNotEmpty())
                     @foreach(getCategories() as $category)
 					<li class="nav-item">
-						<a href="#{{ 'section-' . $category->id }}" class="btn btn-dark" >
+						<a href="{{ route('front.home') }}#section-{{ $category->id }}" class="btn btn-dark" >
 							{{ $category->name }}
                         </a>
 						
@@ -112,7 +112,7 @@
       			</ul>      			
       		</div>   
 			<div class="right-nav py-0">
-				<a href="cart.php" class="ml-3 d-flex pt-2">
+				<a href="{{ route('cart.index') }}" class="ml-3 d-flex pt-2">
 					<i class="fas fa-shopping-cart text-primary" id="shoppingcart"></i>					
 				</a>
 			</div> 		
@@ -191,6 +191,7 @@ function myFunction() {
     navbar.classList.remove("sticky");
   }
 }
+@yield('customJs')
 </script>
 </body>
 </html>

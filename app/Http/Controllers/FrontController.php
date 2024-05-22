@@ -35,4 +35,7 @@ class FrontController extends Controller
         $data['related'] = $relatedProduct;
         return view('front.product',$data);
     }
+    public function profile(){
+        return view('front.profile');
+    }
 }

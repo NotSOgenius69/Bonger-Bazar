@@ -8,77 +8,95 @@
     <title>Login</title>
 </head>
 <body>
-<div class="logincard">
-    @include('admin.message')
-    <h2 id="cardtitle">Login</h2>
-    <form method="POST" action="{{ route('admin.authenticate') }}" class="form">
-        @csrf
-        <div class="input-field" id="namefield">
-        <i class="fa-solid fa-user"></i>
-        <input type="text" id="name" name="name" placeholder="Name">
-        </div>
-        <br>
-        <div class="input-field">
-        <i class="fa-solid fa-envelope"></i>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        </div>
-        <br>
-        <div class="input-field">
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        </div>
-        <br>
-        <div class="btns">
-        <button type="submit" class="active" id="loginbtn">Login</button>
-        <button type="button" class="disabled-btn" id="signupbtn">Sign Up</button>
-        </div>
-    </form>       
-</div>
-<script>
-    let namefield=document.getElementById("namefield");
-    let cardtitle=document.getElementById("cardtitle");
-    let loginbtn=document.getElementById("loginbtn");
-    let signupbtn=document.getElementById("signupbtn");
-    let namebox=document.getElementById("name");
-    let close=document.getElementById("close");
-    let alertbox=document.querySelector(".alert")
+    <div class="logincard">
+        @include('admin.message')
+        <h2 id="cardtitle">Login</h2>
+        <form method="POST" action="{{ route('admin.authenticate') }}" class="form" id="loginForm">
+            @csrf
+            <div class="input-field" id="namefield" style="max-height: 0;">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="name" name="name" placeholder="Name">
+            </div>
+            <br>
+            <div class="input-field">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <br>
+            <div class="input-field">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <br>
+            <div class="btns">
+                <button type="submit" class="active" id="loginbtn">Login</button>
+                <button type="button" id="signupbtn" class="disabled-btn">Sign Up</button>
+            </div>
+        </form>
+        <form method="POST" action="{{ route('user.register') }}" class="form" id="registerForm" style="display: none;">
+            @csrf
+            <div class="input-field" id="namefield" style="max-height: 4rem;">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="name" name="name" placeholder="Name" required>
+            </div>
+            <br>
+            <div class="input-field">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <br>
+            <div class="input-field">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <br>
+            <div class="btns">
+                <button type="button" id="loginbtn" class="disabled-btn">Login</button>
+                <button type="submit" class="active" id="signupbtn">Sign Up</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        let namefield = document.getElementById("namefield");
+        let cardtitle = document.getElementById("cardtitle");
+        let loginbtn = document.querySelectorAll("#loginbtn");
+        let signupbtn = document.querySelectorAll("#signupbtn");
+        let loginForm = document.getElementById("loginForm");
+        let registerForm = document.getElementById("registerForm");
 
-    close.onclick=()=>{
-        alertbox.style.display ="none";
-    }
+        loginbtn.forEach(btn => {
+            btn.addEventListener("click", () => {
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
+                loginbtn.forEach(btn => {
+                    btn.classList.add("active");
+                    btn.classList.remove("disabled-btn");
+                });
+                signupbtn.forEach(btn => {
+                    btn.classList.remove("active");
+                    btn.classList.add("disabled-btn");
+                });
+                namefield.style.maxHeight = "0";
+                cardtitle.innerHTML = "Login";
+            });
+        });
 
-     loginbtn.onclick=()=>{
-        if(!loginbtn.classList.contains("active")){
-            loginbtn.classList.add("active");
-            signupbtn.classList.remove("active");
-            signupbtn.type="button";
-            namebox.required=!namebox.required;
-        }
-        else
-        {
-            loginbtn.type="submit";
-        }
-        namefield.style.maxHeight="0";
-        cardtitle.innerHTML="Login";
-        loginbtn.classList.remove("disabled-btn");
-        signupbtn.classList.add("disabled-btn");
-    }
-    signupbtn.onclick=()=>{
-        if(!signupbtn.classList.contains("active")){
-            loginbtn.classList.remove("active");
-            signupbtn.classList.add("active");
-            loginbtn.type="button";
-            namebox.required=!namebox.required;
-        }
-        else{
-            signupbtn.type="submit";
-        }
-        namefield.style.maxHeight="4rem";
-        cardtitle.innerHTML="Sign Up";
-        signupbtn.classList.remove("disabled-btn");
-        loginbtn.classList.add("disabled-btn");
-    }
-
-</script>
+        signupbtn.forEach(btn => {
+            btn.addEventListener("click", () => {
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
+                loginbtn.forEach(btn => {
+                    btn.classList.remove("active");
+                    btn.classList.add("disabled-btn");
+                });
+                signupbtn.forEach(btn => {
+                    btn.classList.add("active");
+                    btn.classList.remove("disabled-btn");
+                });
+                namefield.style.maxHeight = "4rem";
+                cardtitle.innerHTML = "Sign Up";
+            });
+        });
+    </script>
 </body>
 </html>

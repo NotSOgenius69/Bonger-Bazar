@@ -59,7 +59,11 @@
                         <h2 class="price ">৳{{ $product->price }}</h2>
 
                         <p>{{ $product->description }}</p>
-                        <a href="cart.php" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
+                                <a class="btn btn-dark" href="{{ route('cart.add',$product->id) }}" >
+                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                </a>
+                            
+                        
                     </div>
                 </div>
 
@@ -141,4 +145,11 @@
         </div>
     </section>
 </main>
+@endsection
+
+@section('customJs')
+function submitForm(event) {
+    event.preventDefault(); // Prevent the default anchor link behavior
+    document.getElementById('add-to-cart-form').submit(); // Submit the form
+}
 @endsection
