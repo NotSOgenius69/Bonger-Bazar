@@ -72,6 +72,15 @@ a.link:hover{
 i.fa-heart:hover{
     color:#F16322 !important;
 }
+#cart thead{
+    background-color: #F16322 !important;
+}
+.white-text{
+    color: #F16322 !important;
+}
+.sub-title::after{
+    background-color: #F16322 !important;
+}
 footer .copyright-area{
     background-color: #F16322 !important;
 }

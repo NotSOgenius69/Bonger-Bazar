@@ -54,18 +54,18 @@
                 <a href="{{ route('front.home') }}" class="logo"><img src="{{ asset('images/logo.png') }}" alt="Bonger Bazar" width="220px" height="40px"></a>
             </div>
             <div class="col-lg-6 col-6 text-left d-flex justify-content-end align-items-center">
-            @if (Auth::guard('admin')->check())
-                @php
-                    $user = Auth::guard('admin')->user();
-                @endphp
-
+            @php
+                    $user = auth()->user();
+            @endphp
+			@if ($user)
                     @if ($user && $user->role == 0)
                         <button type="button" class="loginbutton" onclick="window.location='{{ route('admin.dashboard') }}'">Dashboard</button>
                     @else
                         <button type="button" class="loginbutton" onclick="window.location='{{ route('user.profile') }}'">Profile</button>
                     @endif
                 @else
-                    <button type="button" class="loginbutton" onclick="window.location='{{ route('admin.login') }}'">Sign In</button>
+                    <button type="button" class="loginbutton" onclick="window.location='{{ route('account.login') }}'">
+					Sign In</button>
                 @endif
 
                 <form action="">

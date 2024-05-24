@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Product;
 
@@ -36,6 +37,23 @@ class FrontController extends Controller
         return view('front.product',$data);
     }
     public function profile(){
-        return view('front.profile');
+    
+                if (Auth::check()) {
+                    $user = Auth::user();
+
+                    if ($user->role == 0) { 
+                        return view('front.home');
+                    } 
+                    elseif ($user->role == 1) { 
+                        return view('front.profile');
+                    } 
+                    else {
+                        abort(403, 'Unauthorized access');
+                    }
+                }
+                 else {
+                    return redirect()->route('account.login');
+                }
+       
     }
 }

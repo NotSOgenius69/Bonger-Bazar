@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -9,20 +9,24 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class AdminLoginController extends Controller
+class AuthController extends Controller
 {
     public function index(){
         return view('admin.login');
     }
     public function authenticate(Request $request){
-           if(Auth::guard('admin')->attempt(['email'=>$request->email,'password'=>$request->password],$request->get('remember'))){
-            //dd(session()->all());
-            if(session()->has('url.intended')){
-              return redirect(session()->get('url.intended'));
+           if(Auth::attempt(['email'=>$request->email,'password'=>$request->password],$request->get('remember'))){
+            
+            // if(session()->has('url.intended')){
+            //   return redirect(session()->get('url.intended'));
+            // }
+            
+             $user=Auth::user();
+              if($user->role==0){
+                // dd($user);
+                return redirect()->route('admin.dashboard');
               }
-             $admin=Auth::guard('admin')->user();
-              if($admin->role==0)
-              return redirect()->route('admin.dashboard');
+              
               else
               {
                 return redirect()->route('front.home');
@@ -30,7 +34,7 @@ class AdminLoginController extends Controller
            }
            else
            {
-            return redirect()->route('admin.login')->with('error','Credentials is incorrect.Please check again.');
+            return redirect()->route('account.login')->with('error','Credentials is incorrect.Please check again.');
            }
     }
     public function register(Request $request)
@@ -49,12 +53,16 @@ class AdminLoginController extends Controller
         $user->role = 1;
         $user->save();
       }
-      return redirect()->route('front.home')->with('success','Registration Successful');
+      return redirect()->route('account.login')->with('success','Registration Successful');
 
     }
-    public function logout(){
-      Auth::guard('web')->logout();
-      return redirect()->route('front.home');
-  }
-    
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('front.home');
+    }
+
 }

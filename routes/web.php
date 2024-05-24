@@ -14,6 +14,8 @@ use App\Http\Controllers\admin\ProductController;
 
 use App\Http\Controllers\admin\TempImagesController;
 
+use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\CartController;
 
 use Illuminate\Http\Request;
@@ -30,25 +32,21 @@ use Illuminate\Http\Request;
 
 Route::get('/', [FrontController::class,'index'])->name('front.home');
 Route::get('/product/{slug}',[FrontController::class,'product'])->name('front.product');
-Route::get('/profile',[FrontController::class,'profile'])->name('user.profile');
+
 
 // Cart routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'updateCartItem'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
 // admin routes
 Route::group(['prefix'=>'admin'],function(){
-     Route::group(['middleware'=>'admin.guest'],function(){
-        Route::get('/login',[AdminLoginController::class,'index'])->name('admin.login');
-         Route::post('/register', [AdminLoginController::class, 'register'])->name('user.register');
-        Route::post('/authenticate',[AdminLoginController::class,'authenticate'])->name('admin.authenticate');
-     });
-     Route::group(['middleware'=>'admin.auth'],function(){
-        Route::get('/dashboard',[HomeController::class,'index'])->name('admin.dashboard');
-        Route::get('/logout',[HomeController::class,'logout'])->name('admin.logout');
-     });
+ 
+
+     Route::get('/dashboard',[HomeController::class,'index'])->name('admin.dashboard');
+      Route::get('/logout',[HomeController::class,'logout'])->name('admin.logout');
 
       //Product routes
       Route::get('/products',[ProductController::class,'index'])->name('products.index');
@@ -64,15 +62,17 @@ Route::group(['prefix'=>'admin'],function(){
       Route::delete('/temp-images/{id}', [TempImagesController::class, 'destroy'])->name('temp-images.destroy');
 });
 
-//user routes
-Route::group(['prefix'=>'user'],function(){
-   Route::group(['middleware'=>'guest'],function(){
-      Route::get('/login',[AdminLoginController::class,'index'])->name('user.login');
-       Route::post('/register', [AdminLoginController::class, 'register'])->name('user.register');
-      Route::post('/authenticate',[AdminLoginController::class,'authenticate'])->name('user.authenticate');
+//account routes
+Route::group(['prefix'=>'account'],function(){
+   Route::get('/login',[AuthController::class,'index'])->name('account.login');
+       Route::post('/register', [AuthController::class, 'register'])->name('account.register');
+      Route::post('/authenticate',[AuthController::class,'authenticate'])->name('account.authenticate');
+      Route::get('/logout',[AuthController::class,'logout'])->name('account.logout');
+
    });
-   Route::group(['middleware'=>'auth'],function(){
+
+   //user routes
+   Route::group(['prefix'=>'user'],function(){
+      Route::get('/profile',[FrontController::class,'profile'])->name('user.profile');
      
-      Route::get('/logout',[FrontController::class,'logout'])->name('user.logout');
-   });
-   });
+      });

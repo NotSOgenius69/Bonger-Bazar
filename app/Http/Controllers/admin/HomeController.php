@@ -9,11 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index(){
+        if(auth()->user()->role == 0)
         return view('admin.dashboard');
+        else return redirect('/') ;
        
     }
-    public function logout(){
-        Auth::guard('admin')->logout();
-        return redirect()->route('front.home');
-    }
+    
 }

@@ -12,7 +12,7 @@
                     <picture>
                         <source media="(max-width: 799px)" srcset="images/carousel-1-m.jpg" />
                         <source media="(min-width: 800px)" srcset="images/carousel-1.jpg" />
-                        <img src="images/carousel-1.jpg" alt="" />
+                        <img src="public_path('images/mistidoi')" alt="" />
                     </picture>
 
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">

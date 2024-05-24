@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -86,5 +87,22 @@ class CartController extends Controller
         }
 
         return redirect()->back();
+    }
+    public function checkout(){
+        $cart = Session::get('cart', []);
+        $totalItems = array_sum(array_column($cart, 'quantity'));
+        if($totalItems == 0)
+        {
+            return redirect()->route('cart.index');
+        }
+        if(Auth::guard('web')->check())
+        {
+            if(!session()->has('url.intended')){
+            session(['url.intended' => url()->current()]);
+            }
+
+            return redirect()->route('account.login');
+        }
+       return view('front.checkout');
     }
 }

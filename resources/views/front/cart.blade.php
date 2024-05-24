@@ -82,6 +82,7 @@
                             </table>
                         </div>
                     </div>
+                    @if(count($cart)>0)
                     <div class="col-md-4">
                     <div class="card cart-summery">
                         <div class="sub-title">
@@ -101,15 +102,12 @@
                             <div>৳{{ array_sum(array_column($cart, 'total')) + 20 }}</div>
                             </div>
                             <div class="pt-5">
-                            <a href="login.php" class="btn-dark btn btn-block w-100">Proceed to Checkout</a>
+                            <a href="{{ route('cart.checkout') }}" class="btn-dark btn btn-block w-100">Proceed to Checkout</a>
                             </div>
                         </div>
-                    </div>     
-                    <div class="input-group apply-coupan mt-4">
-                        <input type="text" placeholder="Coupon Code" class="form-control">
-                        <button class="btn btn-dark" type="button" id="button-addon2">Apply Coupon</button>
-                    </div> 
-                </div>
+                    </div>   
+                    </div>
+                    @endif  
             </div>
                     </div>
                 </div>
@@ -118,7 +116,5 @@
     </main>
 @endsection
 @section('customJs')
-close.onclick=()=>{
-        alertbox.style.display ="none";
-    }
+
 @endsection

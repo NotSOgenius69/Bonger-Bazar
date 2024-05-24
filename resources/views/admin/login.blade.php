@@ -11,7 +11,7 @@
     <div class="logincard">
         @include('admin.message')
         <h2 id="cardtitle">Login</h2>
-        <form method="POST" action="{{ route('admin.authenticate') }}" class="form" id="loginForm">
+        <form method="POST" action="{{ route('account.authenticate') }}" class="form" id="loginForm">
             @csrf
             <div class="input-field" id="namefield" style="max-height: 0;">
                 <i class="fa-solid fa-user"></i>
@@ -33,7 +33,7 @@
                 <button type="button" id="signupbtn" class="disabled-btn">Sign Up</button>
             </div>
         </form>
-        <form method="POST" action="{{ route('user.register') }}" class="form" id="registerForm" style="display: none;">
+        <form method="POST" action="{{ route('account.register') }}" class="form" id="registerForm" style="display: none;">
             @csrf
             <div class="input-field" id="namefield" style="max-height: 4rem;">
                 <i class="fa-solid fa-user"></i>
