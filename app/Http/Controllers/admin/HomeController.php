@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index(){
+        if(Auth::check()){
         if(auth()->user()->role == 0)
         return view('admin.dashboard');
         else return redirect('/') ;
+        }
+        else 
+        return redirect()->route('account.login');
        
     }
     

@@ -42,7 +42,7 @@ class FrontController extends Controller
                     $user = Auth::user();
 
                     if ($user->role == 0) { 
-                        return view('front.home');
+                        return  redirect('/');
                     } 
                     elseif ($user->role == 1) { 
                         return view('front.profile');

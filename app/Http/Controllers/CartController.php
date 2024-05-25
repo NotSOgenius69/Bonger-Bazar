@@ -95,14 +95,18 @@ class CartController extends Controller
         {
             return redirect()->route('cart.index');
         }
-        if(Auth::guard('web')->check())
+        if(Auth::check())
         {
-            if(!session()->has('url.intended')){
-            session(['url.intended' => url()->current()]);
-            }
-
-            return redirect()->route('account.login');
+            return view('front.checkout');
+           
         }
-       return view('front.checkout');
+        else
+        {
+            
+            session(['intended_url' => 'cart.checkout']);
+    
+                return redirect()->route('account.login');
+        }
+       
     }
 }
