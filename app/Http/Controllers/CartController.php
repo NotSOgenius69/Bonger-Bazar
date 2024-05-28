@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\CustomerAddress;
+use App\Models\ShippingCharges;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -97,7 +102,15 @@ class CartController extends Controller
         }
         if(Auth::check())
         {
-            return view('front.checkout');
+            $user = Auth::user();
+            $shippingCharges = ShippingCharges::all();
+            if ($user->customerAddress()->exists()) {
+                $customerAddress = $user->customerAddress;
+                return view('front.checkout',compact('user','customerAddress','shippingCharges'));
+            } else {
+                return view('front.checkout',compact('user','shippingCharges'));
+            }
+            
            
         }
         else
@@ -108,5 +121,82 @@ class CartController extends Controller
                 return redirect()->route('account.login');
         }
        
+    }
+    public function processCheckout(Request $request){
+          
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'district' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'zip' => 'required',
+            'mobile' => 'required',
+            'payment_method' => 'required',
+        ]);
+
+        $user=Auth::user();
+
+        CustomerAddress::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'district' => $request->district,
+                'address' => $request->address,
+                'apartment' => $request->apartment,
+                'city' => $request->city,
+                'state' => $request->state,
+                'zip' => $request->zip
+            ]
+        );
+
+        $cart = Session::get('cart', []);
+        $totalPrice = 0;
+        $shipping = 20;
+        foreach ($cart as $item) {
+            $totalPrice += $item['total'];
+        }
+
+        if($request->payment_method == 'cod')
+        {
+            
+        $order = new Order();
+        $order->user_id = $user->id;
+        $order->payment_method = $validatedData['payment_method'];
+        $order->subtotal= $totalPrice;
+        $order->shipping= $shipping;
+        $order->grand_total= $totalPrice + $shipping;
+        $order->district = $validatedData['district'];
+        $order->address = $validatedData['address'];
+        $order->apartment = $request->apartment;
+        $order->city = $validatedData['city'];
+        $order->state = $request->state;
+        $order->zip = $validatedData['zip'];
+        $order->notes = $request->order_notes;
+        $order->save();
+
+
+        foreach ($cart as $item) {
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $item['product_id'];
+            $orderItem->name = $item['product_name'];
+            $orderItem->price = $item['price'];
+            $orderItem->qty = $item['quantity'];
+            $orderItem->total = $item['total'];
+            $orderItem->save();
+        }
+
+        // Clear the cart
+        Session::forget('cart');
+
+        // Redirect or return a response
+        return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
+
+        }
+        else
+        {
+
+        }
+
     }
 }

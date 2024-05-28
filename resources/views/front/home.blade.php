@@ -10,15 +10,17 @@
                     <!-- <img src="images/carousel-1.jpg" class="d-block w-100" alt=""> -->
 
                     <picture>
-                        <source media="(max-width: 799px)" srcset="images/carousel-1-m.jpg" />
-                        <source media="(min-width: 800px)" srcset="images/carousel-1.jpg" />
-                        <img src="public_path('images/mistidoi')" alt="" />
+                        <source media="(max-width: 799px)" srcset="{{ asset('images/mistidoi.jpg') }}" />
+                        <source media="(min-width: 800px)" srcset="{{ asset('images/mistidoi.jpg') }}" />
+                        <img src="{{ asset('images/mistidoi.jpg') }}" alt="" />
+
                     </picture>
 
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                            <h1 class="display-4 text-white mb-3">বগুরার মিষ্টি দই</h1>
+                            <p class="mx-md-5 px-5">
+Discover the exquisite delight of Bogurar Misti Doi, a traditional sweet yogurt that embodies the essence of Bogura's rich culinary heritage. </p>
                             <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                         </div>
                     </div>
@@ -26,15 +28,15 @@
                 <div class="carousel-item">
                     
                     <picture>
-                        <source media="(max-width: 799px)" srcset="images/carousel-2-m.jpg" />
-                        <source media="(min-width: 800px)" srcset="images/carousel-2.jpg" />
-                        <img src="images/carousel-2.jpg" alt="" />
+                        <source media="(max-width: 799px)" srcset="{{ asset('images/aam.jpg') }}" />
+                        <source media="(min-width: 800px)" srcset="{{ asset('images/aam.jpg') }}" />
+                        <img src="{{ asset('images/aam.jpg') }}" alt="" />
                     </picture>
 
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Womens Fashion</h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                            <h1 class="display-4 text-white mb-3">রাজশাহীর আম</h1>
+                            <p class="mx-md-5 px-5">Discover the unparalleled taste of Rajshahir Aam, the renowned mango variety that hails from the lush orchards of Rajshahi, Bangladesh. </p>
                             <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                         </div>
                     </div>
@@ -43,15 +45,16 @@
                     <!-- <img src="images/carousel-3.jpg" class="d-block w-100" alt=""> -->
 
                     <picture>
-                        <source media="(max-width: 799px)" srcset="images/carousel-3-m.jpg" />
-                        <source media="(min-width: 800px)" srcset="images/carousel-3.jpg" />
-                        <img src="images/carousel-2.jpg" alt="" />
+                        <source media="(max-width: 799px)" srcset="{{ asset('images/kachgolla.jpg') }}" />
+                        <source media="(min-width: 800px)" srcset="{{ asset('images/kachagolla.jpg') }}" />
+                        <img src="{{ asset('images/kachagolla.jpg') }}" alt="" />
                     </picture>
 
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Branded Clothes</h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                            <h1 class="display-4 text-white mb-3">নাটোরের কাঁচাগোল্লা
+                            </h1>
+                            <p class="mx-md-5 px-5">Indulge in the delectable delight of Natore Kachagolla, a traditional sweet treat that originates from the historic city of Natore in Bangladesh.</p>
                             <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                         </div>
                     </div>

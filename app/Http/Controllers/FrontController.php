@@ -36,24 +36,5 @@ class FrontController extends Controller
         $data['related'] = $relatedProduct;
         return view('front.product',$data);
     }
-    public function profile(){
     
-                if (Auth::check()) {
-                    $user = Auth::user();
-
-                    if ($user->role == 0) { 
-                        return  redirect('/');
-                    } 
-                    elseif ($user->role == 1) { 
-                        return view('front.profile');
-                    } 
-                    else {
-                        abort(403, 'Unauthorized access');
-                    }
-                }
-                 else {
-                    return redirect()->route('account.login');
-                }
-       
-    }
 }

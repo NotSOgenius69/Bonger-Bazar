@@ -9,6 +9,8 @@ use App\Http\Controllers\admin\HomeController;
 
 use App\Http\Controllers\FrontController;
 
+use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\admin\ProductController;
 
 use App\Http\Controllers\admin\TempImagesController;
@@ -39,12 +41,16 @@ Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.a
 Route::post('/cart/update', [CartController::class, 'updateCartItem'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/process-checkout', [CartController::class, 'processCheckout'])->name('cart.processcheckout');
 
 // admin routes
 Route::group(['prefix'=>'admin'],function(){
  
 
      Route::get('/dashboard',[HomeController::class,'index'])->name('admin.dashboard');
+     Route::get('/shipping',[HomeController::class,'shipping'])->name('admin.shipping');
+     Route::get('/orders',[HomeController::class,'showOrders'])->name('admin.orders');
+     Route::get('/users',[HomeController::class,'showUsers'])->name('admin.users');
 
       //Product routes
       Route::get('/products',[ProductController::class,'index'])->name('products.index');
@@ -71,6 +77,8 @@ Route::group(['prefix'=>'account'],function(){
 
    //user routes
    Route::group(['prefix'=>'user'],function(){
-      Route::get('/profile',[FrontController::class,'profile'])->name('user.profile');
+      Route::get('/profile',[UserController::class,'profile'])->name('user.profile');
+      Route::post('/profile/update', [UserController::class,'updateProfile'])->name('profile.update');
+      Route::get('/myorders',[UserController::class,'myOrders'])->name('user.myorders');
      
       });
